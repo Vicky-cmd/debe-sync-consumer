@@ -1,0 +1,141 @@
+debezium:
+  source:
+    connector:
+      class: com.infotrends.in.debesync.kafka.emitters.KafkaChangeEmitter
+    kafka:
+      consumer:
+        threads:
+          count: 2
+        group:
+          id: debezium-consumer
+        key:
+          deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+        value:
+          deserializer : org.apache.kafka.common.serialization.ByteArrayDeserializer
+        bootstrap:
+          servers: localhost:9093
+        security:
+          protocol: SASL_PLAINTEXT
+        sasl:
+          jaas:
+            config: org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin45';
+          mechanism: PLAIN
+        client:
+          dns:
+            lookup: use_all_dns_ips
+        session:
+          timeout:
+            ms: 45000
+        acks: all
+        commit:
+          interval:
+            ms: 100000
+        enable:
+          auto:
+            commit: false
+        auto:
+          offset:
+            reset: earliest
+  sink:
+    name: Debesync-consumer
+    connector:
+      class: io.confluent.connect.jdbc.JdbcSinkConnector
+    type: mysql
+    mysql:
+      topics: mysql.infotrends.users
+      connection:
+        url: jdbc:mysql://localhost:3306/TargetDB1
+        port: 3306
+        user: root
+        password: root45
+      auto:
+        create: false
+      insert:
+        mode: upsert
+      delete:
+        enabled: true
+      pk:
+        mode: record_key
+#      table:
+#        name:
+#          format: userData
+    converters:
+      key:
+        class: org.apache.kafka.connect.json.JsonConverter
+        properties:
+          schemas:
+            enable: true
+      value:
+        class: org.apache.kafka.connect.json.JsonConverter
+        properties:
+          schemas:
+            enable: true
+    errors:
+      deadletterqueue:
+        topic:
+          name: $topic-dlq
+        context:
+          headers:
+            enable: true
+        producer:
+          bootstrap:
+            servers: localhost:9093
+          security:
+            protocol: SASL_PLAINTEXT
+          sasl:
+            jaas:
+              config: org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin45';
+            mechanism: PLAIN
+          dns:
+            lookup: use_all_dns_ips
+          session:
+            timeout:
+              ms: 60000
+          acks: all
+      retry:
+        timeout: 30000
+        delay:
+          max:
+            ms: 30000
+      tolerance: all
+  connector:
+    type: mysql
+    operation:
+      mode: never
+    sourceDatabases: infotrends
+    schema:
+      history:
+        internal:
+          type: com.infotrends.in.debesync.jdbc.storage.kafka.KafkaSchemaHistoryStorageReader
+          kafka:
+            topic: schemahistory.infotrends
+            consumer:
+              threads:
+                count: 2
+              group:
+                id: debezium-consumer
+              key:
+                deserializer: org.apache.kafka.common.serialization.StringDeserializer
+              value:
+                deserializer : org.apache.kafka.common.serialization.StringDeserializer
+              bootstrap:
+                servers: localhost:9093
+              security:
+                protocol: SASL_PLAINTEXT
+              sasl:
+                jaas:
+                  config: org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin45';
+                mechanism: PLAIN
+              client:
+                dns:
+                  lookup: use_all_dns_ips
+              session:
+                timeout:
+                  ms: 45000
+              acks: all
+              commit:
+                interval:
+                  ms: 100000
+              auto:
+                offset:
+                  reset: earliest

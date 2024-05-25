@@ -1,0 +1,56 @@
+quarkus:
+  application:
+    name: quarkus-producer
+  http:
+    port: 8081
+  devservices:
+    enabled: false
+
+debezium:
+  schema:
+    name:
+      adjustment:
+        mode: avro
+  source:
+    connector:
+      class: io.debezium.connector.mongodb.MongoDbConnector
+    mongodb:
+      connection:
+        string: mongodb://admin:admin45@localhost:27017/?ssl=true
+    topic:
+      prefix: mongo
+    database:
+      include:
+        list: Infotrends
+    collection:
+      include:
+        list: Infotrends.Users
+    snapshot:
+      mode: initial
+    offset:
+      storage:
+        nodeValue: org.apache.kafka.connect.storage.FileOffsetBackingStore
+        file:
+          filename: ./offsets/offset123.txt
+  sink:
+    type: kafka
+    kafka:
+      producer:
+        bootstrap:
+          servers: localhost:9093
+        security:
+          protocol: SASL_PLAINTEXT
+        sasl:
+          jaas:
+            config: org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin45';
+          mechanism: PLAIN
+        dns:
+          lookup: use_all_dns_ips
+        session:
+          timeout:
+            ms: 60000
+        acks: all
+        key:
+          serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+        value:
+          serializer: org.apache.kafka.common.serialization.ByteArraySerializer

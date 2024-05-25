@@ -1,0 +1,98 @@
+quarkus:
+  application:
+    name: quarkus-producer
+  http:
+    port: 8081
+  devservices:
+    enabled: false
+#    level: ALL
+debezium:
+  source:
+    connector:
+      class: io.debezium.connector.mysql.MySqlConnector
+    topic:
+      prefix: mysql
+      creation:
+        enable: true
+        default:
+          replication:
+            factor: 3
+          partitions: 3
+    database:
+      hostname: localhost
+      port: 3306
+      user: root
+      password: admin45
+      include:
+        list: infotrends
+      server:
+        id: 12345
+    schema:
+      history:
+        internal:
+          kafka:
+            bootstrap:
+              servers: localhost:9093
+            topic: schemahistory.infotrends
+          producer:
+            bootstrap:
+              servers: localhost:9093
+            security:
+              protocol: SASL_PLAINTEXT
+            sasl:
+              jaas:
+                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin45';
+              mechanism: PLAIN
+            dns:
+              lookup: use_all_dns_ips
+            session:
+              timeout:
+                ms: 60000
+            acks: all
+          consumer:
+            bootstrap:
+              servers: localhost:9093
+            security:
+              protocol: SASL_PLAINTEXT
+            sasl:
+              jaas:
+                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin45';
+              mechanism: PLAIN
+            dns:
+              lookup: use_all_dns_ips
+            session:
+              timeout:
+                ms: 60000
+            acks: all
+    include:
+      schema:
+        changes: true
+    snapshot:
+      mode: initial
+    offset:
+      storage:
+        nodeValue: org.apache.kafka.connect.storage.FileOffsetBackingStore
+        file:
+          filename: ./offset13.txt
+  sink:
+    type: kafka
+    kafka:
+      producer:
+        bootstrap:
+          servers: localhost:9093
+        security:
+          protocol: SASL_PLAINTEXT
+        sasl:
+          jaas:
+            config: org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin45';
+          mechanism: PLAIN
+        dns:
+          lookup: use_all_dns_ips
+        session:
+          timeout:
+            ms: 60000
+        acks: all
+        key:
+          serializer: org.apache.kafka.common.serialization.StringSerializer
+        value:
+          serializer: org.apache.kafka.common.serialization.StringSerializer

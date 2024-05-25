@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.infotrends.in</groupId>
+        <artifactId>debesync-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../debesync-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>debesync-quarkus-bom</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.release>11</maven.compiler.release>
+        
+        <version.maven>3.8.4</version.maven>
+        
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        
+        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+        <quarkus.platform.version>3.6.7</quarkus.platform.version>
+        <debezium.version>2.5.0.Final</debezium.version>
+        <skipITs>true</skipITs>
+        
+        <surefire-plugin.version>3.1.2</surefire-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.debezium</groupId>
+                <artifactId>debezium-quarkus</artifactId>
+                <version>${debezium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-mongo-connector</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-mysql-connector</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-server-kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-server-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.debezium</groupId>
+                <artifactId>debezium-api</artifactId>
+                <version>${debezium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.debezium</groupId>
+                <artifactId>debezium-core</artifactId>
+                <version>${debezium.version}</version>
+            </dependency>
+
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>debesync-bom</artifactId>
+
+    <parent>
+        <groupId>com.infotrends.in</groupId>
+        <artifactId>debesync-build-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.release>11</maven.compiler.release>
+        
+        <version.maven>3.8.4</version.maven>
+        
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        
+        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+        <quarkus.platform.version>3.6.7</quarkus.platform.version>
+        <kafka.connect.version>3.4.0</kafka.connect.version>
+        <kafka.connect.mongo.version>1.11.1</kafka.connect.mongo.version>
+        <kafka.connect.mysql.version>10.7.4</kafka.connect.mysql.version>
+        <debezium.version>2.5.0.Final</debezium.version>
+        <debesync.version>1.0.0</debesync.version>
+        <vavr.version>0.10.4</vavr.version>
+        <lombok.version>1.18.28</lombok.version>
+        <guava.version>32.1.3-jre</guava.version>
+        <apache.commons.version>3.12.0</apache.commons.version>
+        <mongo.driver.version>4.11.1</mongo.driver.version>
+        <kinesis.client.version>2.5.5</kinesis.client.version>
+        <apicurio.version>2.4.3.Final</apicurio.version>
+        <confluent.kafka.version>7.6.0</confluent.kafka.version>
+        <confluent.kafka.avro.serializer.version>5.3.0</confluent.kafka.avro.serializer.version>
+
+        <skipITs>true</skipITs>
+        
+        <surefire-plugin.version>3.1.2</surefire-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${quarkus.platform.group-id}</groupId>
+                <artifactId>${quarkus.platform.artifact-id}</artifactId>
+                <version>${quarkus.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.debezium</groupId>
+                <artifactId>debezium-quarkus</artifactId>
+                <version>${debezium.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.debezium</groupId>
+                <artifactId>debezium-api</artifactId>
+                <version>${debezium.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.debezium</groupId>
+                <artifactId>debezium-core</artifactId>
+                <version>${debezium.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mongodb.kafka</groupId>
+                <artifactId>mongo-kafka-connect</artifactId>
+                <version>${kafka.connect.mongo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-connect-jdbc</artifactId>
+                <version>${kafka.connect.mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>connect-api</artifactId>
+                <version>${kafka.connect.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>connect-transforms</artifactId>
+                <version>${kafka.connect.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>connect-runtime</artifactId>
+                <version>${kafka.connect.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.kafka</groupId>
+                        <artifactId>kafka-log4j-appender</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>software.amazon.kinesis</groupId>
+                <artifactId>amazon-kinesis-client</artifactId>
+                <version>${kinesis.client.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-core</artifactId>
+                <version>${mongo.driver.version}</version>
+              </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache.commons.version}</version>
+              </dependency>
+            <dependency>
+                <groupId>io.vavr</groupId>
+                <artifactId>vavr</artifactId>
+                <version>${vavr.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.2</version>
+                <scope>test</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-registry-serdes-avro-serde</artifactId>
+                <version>${apicurio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-registry-client</artifactId>
+                <version>${apicurio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-registry-utils-converter</artifactId>
+                <version>${apicurio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-connect-avro-converter</artifactId>
+                <version>${confluent.kafka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-schema-serializer</artifactId>
+                <version>${confluent.kafka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-avro-serializer</artifactId>
+                <version>${confluent.kafka.avro.serializer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-server-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-embedded</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-mongo-connector</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-jdbc-base-connector</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-mysql-connector</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.infotrends.in</groupId>
+                <artifactId>debesync-server-kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
