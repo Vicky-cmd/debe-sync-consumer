@@ -3,6 +3,8 @@
 The Debesync Consumer is an Open source project built on top of Quarkus that provides a low latency streaming platform for reading the CDC events published by the [Debezium Source Connector](https://github.com/debezium/debezium) to various destinations such as Kafka, Kinesis etc.
 This utilizes some functionalities of the Debezium to provide customization and tolerance in case of errors to ensure that there is no data loss.
 
+Brief Summary of the application: https://crrajavignesh2.medium.com/debesync-a-consumer-application-for-implementing-data-streaming-with-debezium-437c04231532
+
 ## Basic Architecture
 The Debesync Consumer is a consumer application built on top of the Kafka Sink connectors (kafka Connect) to run them in a standalone format and form a complete pipeline when utilized with the Debezium Source connector. 
 This can be used to set up consumer application that can be used to replicate the data from the kafka topic to the desired target database with minimal code changes and provides additional features of durability, reliability and fault tolerance. Multiple instances of the connectors can be deployed listening to the same kafka topic to achieve higher throughput and performance.
